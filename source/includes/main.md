@@ -1,68 +1,64 @@
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to _Deneb_ API service. It is used by the
+[Cygnus](https://github.com/stellar-fox/cygnus) client to provide augmented
+services around [Stellar](https://stellar.org) _Account_.
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+We support cross-origin resource sharing, allowing you to interact securely
+with our API from a client-side web application. Most of requests will require
+a valid JSON Web Token ([JWT](https://https://jwt.io/)) in order to succeed.
+There are however, some public open and throttled requests that we allow for
+third party applications.
 
-This example API documentation page was created with [Slate](https://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
+Currently we provide _Bash_ and _JavaScript_ language examples.
+You can view code examples in the dark area to the right.
 
 # Authentication
 
-> To authorize, use this code:
+> You can authenticate by sending the following POST request, along with user credentials in the body of the request:
 
-```ruby
-require 'kittn'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
-
-```bash
+```Bash
 # With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
+curl "https://api.stellarfox.net/v1/user/authenticate"
+  -H "Content-Type: application/json"
+  -d '{"token":"TOKEN"}'
 ```
 
-```javascript
-const kittn = require('kittn');
+```JavaScript
+import Axios from "axios"
 
-let api = kittn.authorize('meowmeowmeow');
+Axios.post("https://api.stellarfox.net/v1/user/authenticate", {
+  token: "TOKEN"
+}).then(response => {
+  // JWT token was successfuly verified.
+}).catch(error => {
+  // JWT token could not be verified or some other error occured.
+})
 ```
 
-> Make sure to replace `meowmeowmeow` with your API key.
+> Make sure to replace `USERNAME` and `PASSWORD` with the real credentials.
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+_Deneb_ uses JWTs to allow access to the API. Those are created and managed
+by the Firebase's __User__ object and validated on the server against their
+claims and signature. JWT is created only if the __User__ object is valid. JWT
+should be included in the JSON body under the key `token`.
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
+_Deneb_ expects for the following two fields to be present in the JSON body:
 
-`Authorization: meowmeowmeow`
+`token: TOKEN`
+
+Most of the requests will require this token. In the side example you can `POST`
+to the `authenticate` end point and check for the validity of the JWT.
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace <code>TOKEN</code> with actual content of JWT token returned
+by the authenticated Firebase User object.
 </aside>
 
 # Kittens
 
 ## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
 
 ```bash
 curl "http://example.com/api/kittens"
