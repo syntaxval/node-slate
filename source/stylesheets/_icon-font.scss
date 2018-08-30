@@ -11,30 +11,32 @@
 }
 
 %icon {
-  font-family: 'slate';
-  speak: none;
-  font-size: 16px;
-  padding-bottom: 4px;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
+  font-size: 20px;
+  vertical-align: sub;
+  opacity: 0.7;
 }
 
 %icon-exclamation-sign {
   @extend %icon;
-  content: "\e600";
+  font-family: "Material Icons";
+  content: "error";
+  color: $warning-sign-color;
 }
 %icon-info-sign {
   @extend %icon;
-  content: "\e602";
+  font-family: "Material Icons";
+  content: "info";
+  color: $notice-sign-color;
 }
 %icon-ok-sign {
   @extend %icon;
-  content: "\e606";
+  font-family: "Material Icons";
+  content: "check_circle";
+  color: $success-sign-color;
 }
 %icon-search {
   @extend %icon;
-  content: "\e607";
+  font-family: "Material Icons";
+  font-size: 1.2em;
+  content: "search";
 }
