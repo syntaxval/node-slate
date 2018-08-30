@@ -15,12 +15,11 @@ You can view code examples in the dark area to the right.
 
 # Authentication
 
-> You can authenticate by sending the following POST request, along with user credentials in the body of the request:
-
+> You can verify token validity on the back-end with the following POST request:
 
 ```Bash
-# With shell, you can just pass the correct header with each request
-curl "https://api.stellarfox.net/v1/user/authenticate"
+# Replace TOKEN with the actual JWT string.
+curl "https://api.stellarfox.net/v1/auth/"
   -H "Content-Type: application/json"
   -d '{"token":"TOKEN"}'
 ```
@@ -28,8 +27,8 @@ curl "https://api.stellarfox.net/v1/user/authenticate"
 ```JavaScript
 import Axios from "axios"
 
-Axios.post("https://api.stellarfox.net/v1/user/authenticate", {
-  token: "TOKEN"
+Axios.post("https://api.stellarfox.net/v1/auth/", {
+  token: "your.jwt.string"
 }).then(response => {
   // JWT token was successfuly verified.
 }).catch(error => {
@@ -37,28 +36,31 @@ Axios.post("https://api.stellarfox.net/v1/user/authenticate", {
 })
 ```
 
-> Make sure to replace `USERNAME` and `PASSWORD` with the real credentials.
+> The above code should return JSON structured like this:
+
+```json
+{
+  "uid": "userId",
+}
+```
 
 _Deneb_ uses JWTs to allow access to the API. Those are created and managed
 by the Firebase's __User__ object and validated on the server against their
 claims and signature. JWT is created only if the __User__ object is valid. JWT
-should be included in the JSON body under the key `token`.
+should be included in the JSON body or as a param string mapping to the key
+`token`.
 
-_Deneb_ expects for the following two fields to be present in the JSON body:
-
-`token: TOKEN`
-
-Most of the requests will require this token. In the side example you can `POST`
-to the `authenticate` end point and check for the validity of the JWT.
+Most of the requests require `token`. In the side example you can `POST`
+to the `auth` end point and check the validity of the JWT.
 
 <aside class="notice">
 You must replace <code>TOKEN</code> with actual content of JWT token returned
 by the authenticated Firebase User object.
 </aside>
 
-# Kittens
+# User
 
-## Get All Kittens
+## Get User
 
 ```bash
 curl "http://example.com/api/kittens"
